@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: myapp
-          image: crccheck/hello-world
+          image: amitbahree/hello-world
           ports:
             - containerPort: 8123
 
