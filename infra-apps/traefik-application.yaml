@@ -1,3 +1,5 @@
+# infra-apps/traefik-controller.yaml
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -8,11 +10,13 @@ metadata:
 spec:
   project: default
   source:
+    # Official Traefik Helm chart repository
     repoURL: https://traefik.github.io/charts
-    targetRevision: 37.3.0
+    targetRevision: 29.0.0 # Use a stable chart revision
     chart: traefik
   destination:
     server: https://kubernetes.default.svc
+    # Deploy Traefik into its own dedicated namespace
     namespace: traefik
   syncPolicy:
     automated:
@@ -20,5 +24,7 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      # This tells Traefik's Helm chart to set the LoadBalancerIP field on its Service
-      - ValuesObject={"service":{"type":"LoadBalancer", "loadBalancerIP":"65.108.146.3"}}
+      # ValuesObject passes configuration to the Helm chart:
+      # 1. Sets the LoadBalancerIP to your static IP (65.108.146.3).
+      # 2. Disables the problematic Gateway API CRDs (enableGatewayAPI:false).
+      - ValuesObject={"service":{"type":"LoadBalancer", "loadBalancerIP":"65.108.146.3"}, "kubernetes":{"ingress":{"enableGatewayAPI":false}}}
