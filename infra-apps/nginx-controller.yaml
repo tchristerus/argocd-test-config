@@ -1,0 +1,23 @@
+# Bestand: infra-apps/nginx-controller.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx-ingress-controller
+  namespace: argocd
+  labels:
+    name: ingress-controller
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kubernetes/ingress-nginx.git
+    targetRevision: controller-v1.10.1
+    path: deploy/static/provider/cloud
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ingress-nginx
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
