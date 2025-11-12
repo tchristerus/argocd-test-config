@@ -11,17 +11,13 @@ spec:
     repoURL: https://github.com/tchristerus/argocd-test-config.git
     targetRevision: HEAD
     path: infra-apps
-    directory:
-      jsonnet:
-        extVars:
-          - name: config_file
-            value: metallb-ip-config.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: metallb-system # Installeer de configuratie in de metallb-system namespace
+    namespace: metallb-system
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
+      - CreateNamespace=true
       - FailOnSharedResource=false
