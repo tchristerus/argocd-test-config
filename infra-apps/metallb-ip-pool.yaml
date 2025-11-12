@@ -21,3 +21,5 @@ metadata:
 spec:
   ipAddressPools:
     - external-ip-pool
+  interfaces:
+    - eth0
