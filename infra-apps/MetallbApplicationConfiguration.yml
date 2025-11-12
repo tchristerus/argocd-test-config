@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metallb-software
+  name: metallb-config
   namespace: argocd
   labels:
-    name: metallb
+    name: metallb-config
 spec:
   project: default
   source:
-    repoURL: https://github.com/metallb/metallb.git
-    targetRevision: v0.15.2
-    path: config/manifests/
+    repoURL: https://github.com/tchristerus/argocd-test-config.git
+    targetRevision: HEAD
+    path: infra-apps/metallb-config
   destination:
     server: https://kubernetes.default.svc
     namespace: metallb-system
