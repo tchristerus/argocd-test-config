@@ -9,6 +9,7 @@ metadata:
     name: ingress-controller
 spec:
   project: default
+  loadBalancerIP: 65.108.146.3
   source:
     # Official Traefik Helm chart repository
     repoURL: https://traefik.github.io/charts
