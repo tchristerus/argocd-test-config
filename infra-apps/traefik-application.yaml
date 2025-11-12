@@ -24,5 +24,11 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - --set service.loadBalancerIP=65.108.146.3
+      # 1. CHANGE service.type to NodePort and remove the loadBalancerIP request
+      - --set service.type=NodePort
+      - --set service.loadBalancerIP=null
+      # 2. Assign standard ports to high NodePorts
+      - --set service.nodePorts.web=30080  # Port 80 traffic
+      - --set service.nodePorts.websecure=30443 # Port 443 traffic
+      # 3. Disable the problematic CRD to ensure sync completes
       - --set kubernetes.ingress.enableGatewayAPI=false
