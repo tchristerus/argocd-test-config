@@ -1,3 +1,5 @@
+# infra-apps/traefik-controller.yaml
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -8,13 +10,11 @@ metadata:
 spec:
   project: default
   source:
-    # Use the Traefik Helm chart repository
     repoURL: https://traefik.github.io/charts
-    targetRevision: 29.0.0 # Use a stable chart revision (check for the latest)
-    chart: traefik           # Name of the chart to install
+    targetRevision: 29.0.0 # Please verify this is a stable chart revision
+    chart: traefik
   destination:
     server: https://kubernetes.default.svc
-    # Deploy Traefik into its own dedicated namespace
     namespace: traefik
   syncPolicy:
     automated:
@@ -22,9 +22,5 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      # Using the literal block scalar (|) for clean multiline YAML injection
-      - name: Values
-        value: |
-          service:
-            type: LoadBalancer
-            loadBalancerIP: 65.108.146.3
+      # CORRECTED: Use the 'ValuesObject' parameter with the JSON on a single line.
+      - ValuesObject={"service":{"type":"LoadBalancer", "loadBalancerIP":"65.108.146.3"}}
