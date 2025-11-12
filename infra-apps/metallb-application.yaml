@@ -1,22 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: metallb-system
+  name: metallb-config
   namespace: argocd
   labels:
-    name: metallb
+    name: metallb-config
 spec:
   project: default
   source:
-    repoURL: https://github.com/metallb/metallb.git
-    targetRevision: v0.14.3
-    path: config/manifests/
+    repoURL: https://github.com/tchristerus/argocd-test-config.git
+    targetRevision: HEAD
+    path: infra-apps
+    directory:
+      jsonnet:
+        extVars:
+          - name: config_file
+            value: metallb-ip-config.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: metallb-system
+    namespace: metallb-system # Installeer de configuratie in de metallb-system namespace
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+      - FailOnSharedResource=false
