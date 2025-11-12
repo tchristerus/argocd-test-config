@@ -24,7 +24,5 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      # ValuesObject passes configuration to the Helm chart:
-      # 1. Sets the LoadBalancerIP to your static IP (65.108.146.3).
-      # 2. Disables the problematic Gateway API CRDs (enableGatewayAPI:false).
-      - ValuesObject={"service":{"type":"LoadBalancer", "loadBalancerIP":"65.108.146.3"}, "kubernetes":{"ingress":{"enableGatewayAPI":false}}}
+      - --set service.loadBalancerIP=65.108.146.3
+      - --set kubernetes.ingress.enableGatewayAPI=false
