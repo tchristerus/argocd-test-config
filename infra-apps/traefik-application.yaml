@@ -1,5 +1,3 @@
-# infra-apps/traefik-controller.yaml
-
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -11,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://traefik.github.io/charts
-    targetRevision: 29.0.0 # Please verify this is a stable chart revision
+    targetRevision: 37.3.0
     chart: traefik
   destination:
     server: https://kubernetes.default.svc
@@ -22,5 +20,5 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      # CORRECTED: Use the 'ValuesObject' parameter with the JSON on a single line.
+      # This tells Traefik's Helm chart to set the LoadBalancerIP field on its Service
       - ValuesObject={"service":{"type":"LoadBalancer", "loadBalancerIP":"65.108.146.3"}}
