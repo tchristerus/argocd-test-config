@@ -1,12 +1,17 @@
+# Definieert de IP-adrespool die MetalLB mag uitdelen.
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: default-pool
+  name: external-public-ip-pool
   namespace: metallb-system
 spec:
+  # Claimt JOUW PUBLIEKE IP-ADRES voor de LoadBalancer.
+  # Dit is het enige IP dat MetalLB zal gebruiken.
   addresses:
-  - 65.108.146.3
+    - 65.108.146.3
 ---
+# Zorgt ervoor dat MetalLB dit IP-adres adverteert op het lokale netwerk
+# via Layer 2 (ARP). Dit is noodzakelijk voor een VPS.
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
@@ -14,4 +19,4 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-    - default-pool
+    - external-public-ip-pool
