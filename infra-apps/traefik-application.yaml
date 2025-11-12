@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik-ingress-controller
+  namespace: argocd
+  labels:
+    name: ingress-controller
+spec:
+  project: default
+  source:
+    # Use the Traefik Helm chart repository
+    repoURL: https://traefik.github.io/charts
+    targetRevision: 29.0.0 # Use a stable chart revision (check for the latest)
+    chart: traefik           # Name of the chart to install
+  destination:
+    server: https://kubernetes.default.svc
+    # Deploy Traefik into its own dedicated namespace
+    namespace: traefik
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      # Values to ensure Traefik's LoadBalancer service is created
+      # which provides the external IP/hostname for outside access.
+      - ValuesObject={"service":{"type":"LoadBalancer"}}
