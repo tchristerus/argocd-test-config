@@ -24,4 +24,10 @@ spec:
       - CreateNamespace=true
       # Values to ensure Traefik's LoadBalancer service is created
       # which provides the external IP/hostname for outside access.
-      - ValuesObject={"service":{"type":"LoadBalancer","loadBalancerIP": "65.108.146.3"}}
+      - ValuesObject: >
+          {
+            "service": {
+              "type": "LoadBalancer",
+              "loadBalancerIP": "65.108.146.3" # Add this line
+            }
+          }
