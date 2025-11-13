@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://kubernetes.github.io/ingress-nginx
     chart: ingress-nginx
-    targetRevision: 4.11.2
+    targetRevision: 4.14.1
     helm:
       values: |
         controller:
@@ -19,6 +19,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
+    createNamespace: true
   syncPolicy:
     automated:
       selfHeal: true
