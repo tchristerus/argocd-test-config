@@ -12,7 +12,7 @@ spec:
     helm:
       values: |
         controller:
-          hostNetwork: false
+          hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
           service:
             type: ClusterIP
