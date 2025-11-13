@@ -19,8 +19,8 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
-    createNamespace: true
   syncPolicy:
+    createNamespace: true
     automated:
       selfHeal: true
       prune: true
